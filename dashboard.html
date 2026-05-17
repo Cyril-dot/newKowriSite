@@ -7,9 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
-/* ═══════════════════════════════════════════
-   TOKENS
-═══════════════════════════════════════════ */
 :root{
   --green:#22c55e; --green-dark:#16a34a; --green-light:#dcfce7;
   --orange:#f97316; --blue:#3b82f6; --red:#ef4444;
@@ -28,16 +25,11 @@ a{text-decoration:none;color:inherit;}
 button{font-family:'DM Sans',sans-serif;-webkit-appearance:none;}
 img{max-width:100%;}
 
-/* ═══════════════════════════════════════════
-   SCROLLBAR
-═══════════════════════════════════════════ */
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
 
-/* ═══════════════════════════════════════════
-   NAV — DESKTOP
-═══════════════════════════════════════════ */
+/* NAV */
 .nav{
   height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;
   padding:0 32px;background:var(--card);border-bottom:1px solid var(--border);
@@ -108,9 +100,7 @@ img{max-width:100%;}
 }
 .btn-logout:hover{border-color:var(--red);color:var(--red);}
 
-/* ═══════════════════════════════════════════
-   BOTTOM NAV — MOBILE ONLY
-═══════════════════════════════════════════ */
+/* BOTTOM NAV — mobile only */
 .bottom-nav{
   display:none;position:fixed;bottom:0;left:0;right:0;z-index:200;
   background:var(--card);border-top:1px solid var(--border);
@@ -131,15 +121,11 @@ img{max-width:100%;}
 .bn-tab.active i{transform:scale(1.1);}
 .bn-tab.admin-bn-tab.active{color:var(--purple);}
 
-/* ═══════════════════════════════════════════
-   PAGES
-═══════════════════════════════════════════ */
+/* PAGES */
 .page{display:none;}
 .page.active{display:block;}
 
-/* ═══════════════════════════════════════════
-   USER PAGE
-═══════════════════════════════════════════ */
+/* USER PAGE */
 .page-wrap{max-width:960px;margin:0 auto;padding:28px 24px;}
 
 /* Balance hero */
@@ -221,7 +207,6 @@ img{max-width:100%;}
 .tx-amt{font-family:'Sora',sans-serif;font-size:14px;font-weight:800;}
 .tx-reward{font-size:12px;color:var(--green-dark);font-weight:600;margin-top:1px;}
 
-/* Badges */
 .badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;letter-spacing:0.02em;}
 .badge.PENDING{background:#fef9c3;color:#854d0e;}
 .badge.APPROVED{background:var(--green-light);color:#166534;}
@@ -231,9 +216,7 @@ img{max-width:100%;}
 .empty-state i{font-size:28px;margin-bottom:10px;opacity:.3;display:block;}
 .loading-state{text-align:center;padding:36px;color:var(--muted);font-size:14px;}
 
-/* ═══════════════════════════════════════════
-   NOTIFICATIONS PANEL
-═══════════════════════════════════════════ */
+/* NOTIFICATIONS PANEL */
 .notif-panel{
   position:fixed;top:var(--nav-h);right:0;width:380px;height:calc(100vh - var(--nav-h));
   background:var(--card);border-left:1px solid var(--border);
@@ -280,9 +263,7 @@ img{max-width:100%;}
 .notif-panel-empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:14px;}
 .notif-panel-empty i{font-size:32px;opacity:.25;display:block;margin-bottom:10px;}
 
-/* ═══════════════════════════════════════════
-   ADMIN PAGE
-═══════════════════════════════════════════ */
+/* ADMIN PAGE */
 .admin-wrap{max-width:1120px;margin:0 auto;padding:28px 24px;}
 .admin-hero{
   display:flex;align-items:center;justify-content:space-between;
@@ -302,7 +283,6 @@ img{max-width:100%;}
 .astat-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-bottom:4px;}
 .astat-val{font-family:'Sora',sans-serif;font-size:24px;font-weight:800;}
 
-/* Admin sub-tabs */
 .admin-tabs-bar{
   display:flex;gap:4px;background:#ebebeb;border-radius:8px;padding:4px;
   margin-bottom:22px;flex-wrap:wrap;overflow-x:auto;
@@ -318,7 +298,6 @@ img{max-width:100%;}
 .admin-section{display:none;}
 .admin-section.active{display:block;}
 
-/* Admin cards */
 .admin-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;}
 .admin-card-head{
   display:flex;align-items:center;justify-content:space-between;
@@ -337,7 +316,6 @@ img{max-width:100%;}
   color:var(--text);font-family:'DM Sans',sans-serif;width:180px;
 }
 
-/* Tables */
 .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .data-tbl{width:100%;border-collapse:collapse;min-width:600px;}
 .data-tbl th{
@@ -349,7 +327,6 @@ img{max-width:100%;}
 .data-tbl tr:last-child td{border-bottom:none;}
 .data-tbl tr:hover td{background:#fafafa;}
 
-/* Small buttons */
 .btn-xs{
   padding:4px 10px;border-radius:5px;font-size:11px;font-weight:700;
   cursor:pointer;border:none;font-family:'DM Sans',sans-serif;
@@ -375,19 +352,16 @@ img{max-width:100%;}
 }
 .proof-thumb:hover{opacity:.8;}
 
-/* Role badges */
 .role-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;}
 .role-badge.USER{background:#f3f4f6;color:#374151;}
 .role-badge.ADMIN{background:var(--purple-light);color:var(--purple);}
 .role-badge.SUPER_ADMIN{background:#fef3c7;color:#92400e;}
 
-/* Notif type badge */
 .notif-type-badge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;}
 .notif-type-badge.TEXT_ONLY{background:#eff6ff;color:#1d4ed8;}
 .notif-type-badge.IMAGE_ONLY{background:#f5f3ff;color:var(--purple);}
 .notif-type-badge.TEXT_IMAGE{background:var(--green-light);color:#166534;}
 
-/* Credit form */
 .credit-form{padding:24px;max-width:440px;}
 .form-field{margin-bottom:16px;}
 .form-field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
@@ -403,7 +377,6 @@ img{max-width:100%;}
 .form-field textarea:focus{border-color:var(--green);}
 .form-field textarea{resize:vertical;min-height:80px;}
 
-/* Buttons */
 .btn-primary{
   padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;
   cursor:pointer;border:none;background:var(--purple);color:#fff;
@@ -419,7 +392,6 @@ img{max-width:100%;}
 }
 .btn-green-solid:hover{background:var(--green-dark);}
 
-/* Screenshots grid */
 .screenshot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;padding:16px;}
 .ss-card{border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:all .15s;}
 .ss-card:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
@@ -433,9 +405,7 @@ img{max-width:100%;}
 }
 .ss-tab.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
 
-/* ═══════════════════════════════════════════
-   MODALS
-═══════════════════════════════════════════ */
+/* MODALS */
 .modal-overlay{
   display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
   z-index:300;align-items:flex-end;justify-content:center;padding:0;
@@ -460,7 +430,6 @@ img{max-width:100%;}
 .modal-full-img{width:100%;border-radius:8px;margin-bottom:14px;cursor:pointer;}
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 20px;display:block;}
 
-/* File preview */
 .file-drop{
   width:100%;height:110px;border:2px dashed var(--border);border-radius:8px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -470,13 +439,10 @@ img{max-width:100%;}
 .file-drop:hover{border-color:var(--green);}
 .file-drop img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;border-radius:6px;}
 
-/* Image modal special */
 #modal-img{align-items:center;padding:20px;}
 #modal-img .modal{max-width:720px;background:transparent;box-shadow:none;padding:0;border-radius:12px;}
 
-/* ═══════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════ */
+/* TOAST */
 .toast{
   position:fixed;bottom:calc(24px + var(--bottom-nav-h));right:16px;left:16px;z-index:999;
   background:#1f2937;color:#fff;padding:13px 18px;border-radius:10px;
@@ -491,19 +457,21 @@ img{max-width:100%;}
 .toast.info{background:#1d4ed8;}
 
 /* ═══════════════════════════════════════════
-   MOBILE CARD LAYOUT — for tx on mobile
-═══════════════════════════════════════════ */
-.tx-card-mobile{display:none;}
-
-/* ═══════════════════════════════════════════
-   RESPONSIVE — 768px (tablets & large phones)
+   RESPONSIVE — 768px
+   KEY FIX: hide notif bell, logout from top nav on mobile
+   since they live in the bottom nav instead
 ═══════════════════════════════════════════ */
 @media(max-width:768px){
   .nav{padding:0 16px;gap:10px;}
-  .nav-tabs{display:none;} /* replaced by bottom nav */
+  .nav-tabs{display:none;}
   .nav-name-wrap{display:none;}
-  .btn-logout span{display:none;}
-  .btn-logout{padding:8px;border-radius:8px;}
+  
+  /* HIDE these from top nav on mobile — they're in the bottom nav */
+  .notif-bell-btn{display:none;}
+  .btn-logout{display:none;}
+  
+  /* Only show avatar in top right on mobile */
+  .nav-right{gap:6px;}
 
   .bottom-nav{display:flex;}
   .page-wrap{padding:18px 14px calc(var(--bottom-nav-h) + 24px);}
@@ -528,7 +496,6 @@ img{max-width:100%;}
     border-radius:0;border-left:none;
     border-top:none;
   }
-  .notif-panel.open{transform:translateX(0);}
 
   .admin-stat-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
   .astat{padding:14px 16px;}
@@ -546,9 +513,6 @@ img{max-width:100%;}
   .toast{bottom:calc(16px + var(--bottom-nav-h));right:14px;left:14px;}
 }
 
-/* ═══════════════════════════════════════════
-   RESPONSIVE — 480px (small phones)
-═══════════════════════════════════════════ */
 @media(max-width:480px){
   .balance-hero{padding:20px 18px;}
   .bal-amount{font-size:30px;}
@@ -561,10 +525,8 @@ img{max-width:100%;}
   .stat-icon{font-size:14px;}
 
   .btn-action{font-size:14px;padding:13px 12px;gap:6px;}
-
   .pill-tab{padding:6px 10px;font-size:12px;}
 
-  /* Horizontal scroll for tx row on tiny screens */
   .tx-type{font-size:13px;}
   .tx-date{font-size:11px;}
   .tx-amt{font-size:13px;}
@@ -580,7 +542,6 @@ img{max-width:100%;}
   .data-tbl td{padding:10px 12px;font-size:12px;}
 
   .credit-form{padding:16px;}
-
   .modal{padding:22px 18px;}
   .modal h3{font-size:15px;}
 
@@ -589,13 +550,9 @@ img{max-width:100%;}
 
   .section-head{padding:12px 14px;}
   .tx-row{padding:11px 14px;}
-
   .btn-xs{padding:3px 8px;font-size:10px;}
 }
 
-/* ═══════════════════════════════════════════
-   RESPONSIVE — 360px (very small phones)
-═══════════════════════════════════════════ */
 @media(max-width:360px){
   .nav{padding:0 12px;}
   .logo-dot{width:28px;height:28px;font-size:12px;}
@@ -611,9 +568,6 @@ img{max-width:100%;}
   .astat-val{font-size:16px;}
 }
 
-/* ═══════════════════════════════════════════
-   LANDSCAPE PHONE
-═══════════════════════════════════════════ */
 @media(max-height:500px) and (orientation:landscape){
   .balance-hero{padding:16px 20px;}
   .bal-amount{font-size:28px;}
@@ -621,9 +575,6 @@ img{max-width:100%;}
   .notif-panel{top:var(--nav-h);height:calc(100vh - var(--nav-h));}
 }
 
-/* ═══════════════════════════════════════════
-   DESKTOP MODAL (center on desktop)
-═══════════════════════════════════════════ */
 @media(min-width:769px){
   .modal-overlay{align-items:center;padding:20px;}
   .modal{border-radius:14px;max-width:460px;}
@@ -635,7 +586,7 @@ img{max-width:100%;}
 </head>
 <body>
 
-<!-- ════════════════ NAV ════════════════ -->
+<!-- NAV -->
 <nav class="nav">
   <div class="nav-logo">
     <div class="logo-dot">K</div>
@@ -653,6 +604,7 @@ img{max-width:100%;}
   </div>
 
   <div class="nav-right">
+    <!-- Bell & logout visible on desktop only (hidden on mobile via CSS) -->
     <button class="notif-bell-btn" id="notif-bell" onclick="toggleNotifPanel()" title="Notifications">
       <i class="fa-solid fa-bell"></i>
       <span class="bell-badge" id="bell-badge"></span>
@@ -670,29 +622,30 @@ img{max-width:100%;}
   </div>
 </nav>
 
-<!-- ════════════════ BOTTOM NAV — mobile ════════════════ -->
+<!-- BOTTOM NAV — mobile -->
 <nav class="bottom-nav" id="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="bn-tab active" id="bn-user" onclick="showPage('user', document.getElementById('tab-user')); setBottomTab('bn-user', false)">
+    <button class="bn-tab active" id="bn-user" onclick="showPage('user', document.getElementById('tab-user')); setBottomTab('bn-user')">
       <i class="fa-solid fa-grid-2"></i>
       <span>Dashboard</span>
     </button>
-    <button class="bn-tab" id="bn-notif" onclick="toggleNotifPanel()">
+    <button class="bn-tab" id="bn-notif" onclick="toggleNotifPanel(); setBottomTab('bn-notif')">
       <i class="fa-solid fa-bell"></i>
       <span>Alerts</span>
+      <span class="bell-badge" id="bell-badge-mobile" style="position:relative;top:auto;right:auto;display:none;width:8px;height:8px;background:var(--red);border-radius:50%;margin-top:-16px;margin-left:2px;"></span>
     </button>
-    <button class="bn-tab admin-bn-tab" id="bn-admin" style="display:none" onclick="showPage('admin', document.getElementById('tab-admin')); setBottomTab('bn-admin', true)">
+    <button class="bn-tab admin-bn-tab" id="bn-admin" style="display:none" onclick="showPage('admin', document.getElementById('tab-admin')); setBottomTab('bn-admin')">
       <i class="fa-solid fa-shield-halved"></i>
       <span>Admin</span>
     </button>
-    <button class="bn-tab" onclick="logout()">
+    <button class="bn-tab" id="bn-logout" onclick="logout()">
       <i class="fa-solid fa-arrow-right-from-bracket"></i>
       <span>Logout</span>
     </button>
   </div>
 </nav>
 
-<!-- ════════════════ USER PAGE ════════════════ -->
+<!-- USER PAGE -->
 <div class="page active" id="page-user">
   <div class="page-wrap">
 
@@ -745,7 +698,7 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- ════════════════ NOTIFICATIONS PANEL ════════════════ -->
+<!-- NOTIFICATIONS PANEL -->
 <div class="notif-panel" id="notif-panel">
   <div class="notif-panel-head">
     <h3>Notifications</h3>
@@ -759,7 +712,7 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- ════════════════ ADMIN PAGE ════════════════ -->
+<!-- ADMIN PAGE -->
 <div class="page" id="page-admin">
   <div class="admin-wrap">
 
@@ -803,7 +756,6 @@ img{max-width:100%;}
       <button class="admin-sub-tab" id="atab-btn-register" style="display:none" onclick="switchAdminSub('register',this)">Create Admin</button>
     </div>
 
-    <!-- Deposits -->
     <div class="admin-section active" id="asec-deposits">
       <div class="admin-card">
         <div class="admin-card-head">
@@ -816,10 +768,7 @@ img{max-width:100%;}
         <div class="tbl-wrap">
           <table class="data-tbl">
             <thead>
-              <tr>
-                <th>User</th><th>Type</th><th>Amount</th><th>Reward</th>
-                <th>Status</th><th>Date</th><th>Proof</th><th>Actions</th>
-              </tr>
+              <tr><th>User</th><th>Type</th><th>Amount</th><th>Reward</th><th>Status</th><th>Date</th><th>Proof</th><th>Actions</th></tr>
             </thead>
             <tbody id="dep-tbody">
               <tr><td colspan="8" class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</td></tr>
@@ -829,7 +778,6 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- Users -->
     <div class="admin-section" id="asec-users">
       <div class="admin-card">
         <div class="admin-card-head">
@@ -852,7 +800,6 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- Notifications -->
     <div class="admin-section" id="asec-notifications">
       <div style="display:flex;justify-content:flex-end;margin-bottom:14px;">
         <button class="btn-green-solid" onclick="openModal('modal-send-notif')">
@@ -874,7 +821,6 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- Credit -->
     <div class="admin-section" id="asec-credit">
       <div class="admin-card" style="max-width:460px;">
         <div class="admin-card-head"><h3>Credit User Balance</h3></div>
@@ -894,7 +840,6 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- Screenshots -->
     <div class="admin-section" id="asec-screenshots">
       <div class="ss-tab-row">
         <button class="ss-tab active" onclick="loadScreenshots('all',this)">All</button>
@@ -906,7 +851,6 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- Create Admin -->
     <div class="admin-section" id="asec-register">
       <div class="admin-card" style="max-width:460px;">
         <div class="admin-card-head"><h3>Create Admin Account</h3></div>
@@ -925,9 +869,7 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- ════════════════ MODALS ════════════════ -->
-
-<!-- Deposit detail -->
+<!-- MODALS -->
 <div class="modal-overlay" id="modal-dep-detail">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -939,7 +881,6 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- Approve flexible -->
 <div class="modal-overlay" id="modal-approve">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -957,7 +898,6 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- Change role -->
 <div class="modal-overlay" id="modal-role">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -978,7 +918,6 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- Send notification -->
 <div class="modal-overlay" id="modal-send-notif">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -1009,7 +948,6 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- Image lightbox -->
 <div class="modal-overlay" id="modal-img" onclick="closeModal('modal-img')">
   <div class="modal" onclick="event.stopPropagation()">
     <img id="modal-img-src" src="" alt="Preview" style="width:100%;border-radius:12px;display:block;"/>
@@ -1019,16 +957,12 @@ img{max-width:100%;}
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast">
   <i class="fa-solid fa-circle-check" id="toast-icon"></i>
   <span id="toast-msg"></span>
 </div>
 
 <script>
-/* ═══════════════════════════════════════════
-   CONFIG & STATE
-═══════════════════════════════════════════ */
 const API = 'https://kowriwebbackend-production.up.railway.app';
 let userData = null;
 let allDeposits = [], allUsers = [], allNotifs = [];
@@ -1038,9 +972,6 @@ let isAdmin = false;
 let isSuperAdmin = false;
 let notifPanelOpen = false;
 
-/* ═══════════════════════════════════════════
-   UTILS
-═══════════════════════════════════════════ */
 const fmt = n => parseFloat(n||0).toFixed(2);
 const fmtDate = d => d ? new Date(d).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : '—';
 const fmtTime = d => d ? new Date(d).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}) : '';
@@ -1062,11 +993,8 @@ document.querySelectorAll('.modal-overlay').forEach(o => {
   o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
 });
 
-/* ═══════════════════════════════════════════
-   BOTTOM TAB HELPER
-═══════════════════════════════════════════ */
-function setBottomTab(activeId, isAdminTab){
-  ['bn-user','bn-admin'].forEach(id => {
+function setBottomTab(activeId){
+  ['bn-user','bn-notif','bn-admin','bn-logout'].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.classList.remove('active');
   });
@@ -1074,9 +1002,6 @@ function setBottomTab(activeId, isAdminTab){
   if(target) target.classList.add('active');
 }
 
-/* ═══════════════════════════════════════════
-   PAGE NAVIGATION
-═══════════════════════════════════════════ */
 function showPage(name, el){
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -1084,13 +1009,9 @@ function showPage(name, el){
   if(el) el.classList.add('active');
   if(name === 'admin') loadAdminData();
   if(name === 'user') { loadUserData(); loadUserNotifs(); }
-  // Close notif panel on page change
   if(notifPanelOpen){ toggleNotifPanel(); }
 }
 
-/* ═══════════════════════════════════════════
-   AUTH & INIT
-═══════════════════════════════════════════ */
 function logout(){
   ['kowri_token','kowri_user','kowri_refresh'].forEach(k => localStorage.removeItem(k));
   location.href = 'signin.html';
@@ -1127,9 +1048,6 @@ async function init(){
   await Promise.all([loadUserData(), loadUserNotifs()]);
 }
 
-/* ═══════════════════════════════════════════
-   USER DATA
-═══════════════════════════════════════════ */
 async function loadUserData(){
   const h = { Authorization:`Bearer ${tok()}` };
   try {
@@ -1186,9 +1104,6 @@ function renderTxList(deps){
   document.getElementById('tx-body').innerHTML = `<div class="tx-list">${html}</div>`;
 }
 
-/* ═══════════════════════════════════════════
-   USER NOTIFICATIONS
-═══════════════════════════════════════════ */
 async function loadUserNotifs(){
   const h = { Authorization:`Bearer ${tok()}` };
   try {
@@ -1199,8 +1114,16 @@ async function loadUserNotifs(){
     userNotifs = nRes.ok ? await nRes.json() : [];
     const countData = cRes.ok ? await cRes.json() : {unreadCount:0};
     const unread = countData.unreadCount || 0;
+    // Update both desktop and mobile badges
     const badge = document.getElementById('bell-badge');
-    unread > 0 ? badge.classList.add('show') : badge.classList.remove('show');
+    const badgeMobile = document.getElementById('bell-badge-mobile');
+    if(unread > 0){
+      badge.classList.add('show');
+      if(badgeMobile) badgeMobile.style.display = 'block';
+    } else {
+      badge.classList.remove('show');
+      if(badgeMobile) badgeMobile.style.display = 'none';
+    }
     renderNotifPanel();
   } catch(e){ /* silent */ }
 }
@@ -1227,6 +1150,15 @@ function toggleNotifPanel(){
   const panel = document.getElementById('notif-panel');
   notifPanelOpen ? panel.classList.add('open') : panel.classList.remove('open');
   if(notifPanelOpen) loadUserNotifs();
+  // If closing on mobile, reset notif tab active state
+  if(!notifPanelOpen){
+    const bnNotif = document.getElementById('bn-notif');
+    if(bnNotif) bnNotif.classList.remove('active');
+    // Restore the correct page tab
+    const activePage = document.querySelector('.page.active');
+    if(activePage && activePage.id === 'page-user') setBottomTab('bn-user');
+    else if(activePage && activePage.id === 'page-admin') setBottomTab('bn-admin');
+  }
 }
 
 async function markRead(notifId){
@@ -1239,8 +1171,15 @@ async function markRead(notifId){
     n.read = true; n.readAt = new Date().toISOString();
     renderNotifPanel();
     const unread = userNotifs.filter(x=>!x.read).length;
-    unread > 0 ? document.getElementById('bell-badge').classList.add('show')
-              : document.getElementById('bell-badge').classList.remove('show');
+    const badge = document.getElementById('bell-badge');
+    const badgeMobile = document.getElementById('bell-badge-mobile');
+    if(unread > 0){
+      badge.classList.add('show');
+      if(badgeMobile) badgeMobile.style.display = 'block';
+    } else {
+      badge.classList.remove('show');
+      if(badgeMobile) badgeMobile.style.display = 'none';
+    }
   } catch(e){ /* silent */ }
 }
 
@@ -1251,14 +1190,13 @@ async function markAllRead(){
     });
     userNotifs.forEach(n=>{ n.read=true; n.readAt=new Date().toISOString(); });
     document.getElementById('bell-badge').classList.remove('show');
+    const badgeMobile = document.getElementById('bell-badge-mobile');
+    if(badgeMobile) badgeMobile.style.display = 'none';
     renderNotifPanel();
     toast('All notifications marked as read');
   } catch(e){ toast('Failed to mark all read','error'); }
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN DATA LOADER
-═══════════════════════════════════════════ */
 async function loadAdminData(){
   const h = { Authorization:`Bearer ${tok()}` };
   try {
@@ -1291,9 +1229,6 @@ function switchAdminSub(name, el){
   if(name==='screenshots') loadScreenshots('all');
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN: DEPOSITS
-═══════════════════════════════════════════ */
 function renderAdminDeposits(list){
   const tbody = document.getElementById('dep-tbody');
   if(!list.length){ tbody.innerHTML='<tr><td colspan="8" class="empty-state">No deposits found.</td></tr>'; return; }
@@ -1398,9 +1333,6 @@ async function adminDeleteDeposit(id){
   } catch(e){ toast(e.message,'error'); }
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN: USERS
-═══════════════════════════════════════════ */
 function renderAdminUsers(list){
   const tbody = document.getElementById('usr-tbody');
   if(!list.length){ tbody.innerHTML='<tr><td colspan="6" class="empty-state">No users found.</td></tr>'; return; }
@@ -1453,9 +1385,6 @@ function quickCredit(userId){
   setTimeout(()=>{ document.getElementById('credit-user-sel').value = userId; },50);
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN: CREDIT
-═══════════════════════════════════════════ */
 function populateCreditSelect(users){
   const sel = document.getElementById('credit-user-sel');
   sel.innerHTML = '<option value="">— Select a user —</option>' +
@@ -1480,9 +1409,6 @@ async function submitCredit(){
   } catch(e){ toast(e.message,'error'); }
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN: NOTIFICATIONS
-═══════════════════════════════════════════ */
 function renderAdminNotifs(list){
   const tbody = document.getElementById('notif-admin-tbody');
   if(!list.length){ tbody.innerHTML='<tr><td colspan="6" class="empty-state">No notifications sent yet.</td></tr>'; return; }
@@ -1577,9 +1503,6 @@ async function deleteAdminNotif(id){
   } catch(e){ toast(e.message,'error'); }
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN: SCREENSHOTS
-═══════════════════════════════════════════ */
 async function loadScreenshots(period, el){
   if(el){
     document.querySelectorAll('.ss-tab').forEach(t=>t.classList.remove('active'));
@@ -1604,9 +1527,6 @@ async function loadScreenshots(period, el){
   } catch(e){ grid.innerHTML='<div class="empty-state" style="grid-column:1/-1">Failed to load screenshots.</div>'; }
 }
 
-/* ═══════════════════════════════════════════
-   ADMIN: CREATE ADMIN
-═══════════════════════════════════════════ */
 async function submitCreateAdmin(){
   const fullName    = document.getElementById('reg-name').value.trim();
   const email       = document.getElementById('reg-email').value.trim();
@@ -1628,15 +1548,11 @@ async function submitCreateAdmin(){
   } catch(e){ toast(e.message,'error'); }
 }
 
-/* ═══════════════════════════════════════════
-   IMAGE LIGHTBOX
-═══════════════════════════════════════════ */
 function openImgModal(url){
   document.getElementById('modal-img-src').src = url;
   openModal('modal-img');
 }
 
-/* ─── KICK OFF ─── */
 init();
 </script>
 </body>
