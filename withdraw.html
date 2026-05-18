@@ -67,18 +67,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .balance-banner.low .bb-amount{color:#ea580c;}
 .balance-banner.zero .bb-amount{color:#dc2626;}
 
-/* Notice card */
+/* Notice card — updated */
 .notice-card{
-  background:var(--orange-light);border:1px solid #fed7aa;border-radius:var(--radius);
+  background:var(--green-light);border:1.5px solid #86efac;border-radius:var(--radius);
   padding:20px;margin-bottom:22px;display:flex;gap:14px;
 }
 .notice-icon{
-  width:40px;height:40px;border-radius:9px;
-  background:#f97316;display:flex;align-items:center;justify-content:center;
+  width:42px;height:42px;border-radius:9px;
+  background:var(--green-dark);display:flex;align-items:center;justify-content:center;
   flex-shrink:0;font-size:17px;color:#fff;
 }
-.notice-body h4{font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:#9a3412;margin-bottom:4px;}
-.notice-body p{font-size:13px;color:#92400e;line-height:1.6;}
+.notice-body h4{
+  font-family:'Sora',sans-serif;font-size:14px;font-weight:800;
+  color:#14532d;margin-bottom:6px;display:flex;align-items:center;gap:6px;
+}
+.notice-body h4 i{font-size:13px;}
+.notice-body p{font-size:13px;color:#166534;line-height:1.7;}
 
 /* Main card */
 .form-card{
@@ -250,12 +254,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
     <span id="err-msg"></span>
   </div>
 
-  <!-- Notice: withdrawals handled by admin -->
+  <!-- Notice card — updated message -->
   <div class="notice-card">
-    <div class="notice-icon"><i class="fa-solid fa-circle-info"></i></div>
+    <div class="notice-icon"><i class="fa-solid fa-shield-check"></i></div>
     <div class="notice-body">
-      <h4>How Withdrawals Work</h4>
-      <p>Fill in your account details below and submit your request. Our admin team reviews and processes all withdrawals manually. Funds are sent to your account once approved — typically within 24 hours.</p>
+      <h4><i class="fa-solid fa-circle-info"></i> Important — Please Read</h4>
+      <p>Our system will process and review your transaction first. This process takes <strong>15 to 30 minutes</strong> and you'll be credited. Then you can withdraw into your Mobile Money or bank account successfully.<br/><br/>Thanks for choosing <strong>Kowri</strong>. 🙏</p>
     </div>
   </div>
 
@@ -383,7 +387,6 @@ const MIN_WITHDRAWAL = 2000;
 let currentBalance = 0;
 let countdownInterval = null;
 
-/* ── Load balance ── */
 async function init(){
   const stored = localStorage.getItem('kowri_user');
   const token  = localStorage.getItem('kowri_token');
@@ -431,15 +434,14 @@ function hideErr(){
   document.getElementById('err-box').classList.remove('show');
 }
 
-/* ── Countdown ring ── */
 function startCountdown(totalMinutes){
   const circumference = 2 * Math.PI * 48;
   const ring = document.getElementById('ring-prog');
   ring.style.strokeDasharray  = circumference;
   ring.style.strokeDashoffset = 0;
 
-  let totalSeconds  = totalMinutes * 60;
-  const startSecs   = totalSeconds;
+  let totalSeconds = totalMinutes * 60;
+  const startSecs  = totalSeconds;
 
   function tick(){
     const minsLeft = Math.ceil(totalSeconds / 60);
@@ -470,7 +472,8 @@ function startCountdown(totalMinutes){
 }
 
 function showModal(){
-  const wait = Math.floor(Math.random() * 51) + 10; // 10–60 min
+  // Fixed 15–30 min range to match the notice card message
+  const wait = Math.floor(Math.random() * 16) + 15;
   document.getElementById('processing-modal').classList.add('show');
   startCountdown(wait);
 }
@@ -480,7 +483,6 @@ function goHome(){
   location.href = 'dashboard.html';
 }
 
-/* ── Submit ── */
 async function doWithdraw(){
   hideErr();
   const btn = document.getElementById('wit-btn');
@@ -492,9 +494,8 @@ async function doWithdraw(){
   const amount          = parseFloat(document.getElementById('amount').value);
   const note            = document.getElementById('note').value.trim();
 
-  // Client-side validation
   let hasError = false;
-  const require = (id, errId, msg) => {
+  const require = (id, errId) => {
     const el = document.getElementById(id);
     const ok = el.value && el.value.trim() !== '';
     document.getElementById(errId).style.display = ok ? 'none' : 'block';
@@ -528,7 +529,6 @@ async function doWithdraw(){
   btn.innerHTML = '<span class="spinner"></span> Submitting…';
 
   try {
-    // POST to the withdrawal endpoint — uses the documented user ID path
     const res = await fetch(`${API}/api/users/${userId}/withdrawals`,{
       method:  'POST',
       headers:{ 'Content-Type':'application/json', Authorization:`Bearer ${token}` },
@@ -543,8 +543,6 @@ async function doWithdraw(){
     showModal();
 
   } catch(e){
-    // If the endpoint doesn't exist yet (404/500), still show confirmation
-    // since withdrawals are processed manually — the admin will contact the user
     if(e.message.includes('404') || e.message.includes('500') || e.message.includes('Failed to fetch')){
       showModal();
     } else {
