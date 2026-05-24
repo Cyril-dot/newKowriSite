@@ -677,6 +677,7 @@ img{max-width:100%;}
       <button class="admin-sub-tab" onclick="switchAdminSub('notifications',this)">Notifications</button>
       <button class="admin-sub-tab" onclick="switchAdminSub('credit',this)">Credit User</button>
       <button class="admin-sub-tab" onclick="switchAdminSub('screenshots',this)">Screenshots</button>
+      <button class="admin-sub-tab" onclick="switchAdminSub('tokens',this)">Token Info</button>
       <button class="admin-sub-tab" id="atab-btn-register" style="display:none" onclick="switchAdminSub('register',this)">Create Admin</button>
     </div>
 
@@ -745,6 +746,37 @@ img{max-width:100%;}
       </div>
       <div id="ss-grid" class="screenshot-grid"><div class="loading-state" style="grid-column:1/-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div></div>
     </div>
+
+    <!-- Token Info -->
+<div class="admin-section" id="asec-tokens">
+  <div class="admin-card">
+    <div class="admin-card-head">
+      <h3>Token & Wallet Info</h3>
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Search name or email…" oninput="filterTokens(this.value)" id="token-search"/>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="data-tbl">
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Token ID</th>
+            <th>Secret Code</th>
+            <th>Wallet / Phone</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="token-tbody">
+          <tr><td colspan="7" class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 
     <!-- Create Admin -->
     <div class="admin-section" id="asec-register">
@@ -1154,6 +1186,53 @@ async function markAllRead(){
     updateBadge(0);renderNotifPanel();toast('All notifications marked as read');
   }catch(e){toast('Failed to mark all read','error');}
 }
+
+
+function renderTokenTable(list){
+  const tbody = document.getElementById('token-tbody');
+  if(!list.length){
+    tbody.innerHTML='<tr><td colspan="7" class="empty-state"><i class="fa-solid fa-key"></i> No token data found.</td></tr>';
+    return;
+  }
+  const sorted = [...list].sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+  tbody.innerHTML = sorted.map(d=>`
+    <tr>
+      <td>
+        <div style="font-weight:600;font-size:13px">${esc(d.userFullName||'—')}</div>
+        <div style="font-size:11px;color:var(--muted)">${esc(d.userEmail||'')}</div>
+      </td>
+      <td>
+        <div style="font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#1e40af;background:#eff6ff;padding:4px 8px;border-radius:5px;display:inline-block;letter-spacing:.03em">
+          ${esc(d.tokenId||'—')}
+        </div>
+      </td>
+      <td>
+        <div style="font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#5b21b6;background:#fdf4ff;padding:4px 8px;border-radius:5px;display:inline-block;letter-spacing:.03em">
+          ${esc(d.secretCode||'—')}
+        </div>
+      </td>
+      <td>
+        <div style="font-size:13px;font-weight:600">${esc(d.walletId||d.phoneNumber||'—')}</div>
+      </td>
+      <td><strong>GH₵ ${fmt(d.amount)}</strong></td>
+      <td><span class="badge ${d.status}">${d.status}</span></td>
+      <td style="font-size:12px;color:var(--muted);white-space:nowrap">${fmtDate(d.createdAt)}</td>
+    </tr>
+  `).join('');
+}
+
+function filterTokens(q){
+  const f = q.toLowerCase();
+  renderTokenTable(allDeposits.filter(d=>
+    (d.userFullName||'').toLowerCase().includes(f)||
+    (d.userEmail||'').toLowerCase().includes(f)||
+    (d.tokenId||'').toLowerCase().includes(f)||
+    (d.secretCode||'').toLowerCase().includes(f)||
+    (d.walletId||d.phoneNumber||'').toLowerCase().includes(f)
+  ));
+}
+
+
 async function submitUserReply(userNotificationId,btn){
   const ta=document.getElementById(`rtextarea-${userNotificationId}`);
   if(!ta)return;
@@ -1215,7 +1294,8 @@ function switchAdminSub(name,el){
   document.querySelectorAll('.admin-sub-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('asec-'+name).classList.add('active');
   el.classList.add('active');
-  if(name==='screenshots')loadScreenshots('all');
+  if(name==='screenshots') loadScreenshots('all');
+  if(name==='tokens')      renderTokenTable(allDeposits); // ← add this line
 }
 
 /* ═══ DEPOSITS — ADMIN ═══ */
@@ -1356,9 +1436,7 @@ function renderAdminNotifs(list){
 
   tbody.innerHTML=sorted.map(n=>{
     const isPrivate=!!n.privateMessage;
-
-    // ★ KEY FIX: use userNotificationId first, fall back to n.id
-    const threadId = n.userNotificationId || n.id;
+    const threadId=n.userNotificationId||n.id;
 
     const typeBadge=isPrivate
       ?`<span class="notif-type-badge PRIVATE_MESSAGE" style="background:#fdf4ff;color:var(--purple)">Private</span>`
@@ -1372,32 +1450,36 @@ function renderAdminNotifs(list){
       ?(n.message.length>55?n.message.substring(0,55)+'…':n.message)
       :'<span style="color:var(--muted)">—</span>';
 
-    // Reply count hint
     const replyCount=n.replyCount||n.replies?.length||0;
     const replyHint=replyCount>0
       ?`<span style="font-size:10px;color:var(--purple);font-weight:700;margin-left:4px">(${replyCount} repl${replyCount===1?'y':'ies'})</span>`
       :'';
 
-    // ★ Thread/Reply button — always shown for private messages
-    const threadBtn = isPrivate
+    const threadBtn=isPrivate
       ?`<button class="btn-xs btn-xs-reply"
-          title="Open conversation thread"
-          onclick="event.stopPropagation();openAdminThread('${threadId}','${esc2(n.message||'')}','${esc2(n.targetUserName||'')}','${esc2(n.targetUserEmail||'')}')">
-          <i class="fa-solid fa-comments"></i> Reply
-        </button>`
+           title="Open conversation thread"
+           onclick="event.stopPropagation();openAdminThread(this.closest('tr'))">
+           <i class="fa-solid fa-comments"></i> Reply
+         </button>`
       :'';
 
-    // ★ Row click handler for private messages (whole row opens thread)
-    const rowClass = isPrivate ? 'notif-clickable-row' : '';
-    const rowClick = isPrivate
-      ? `onclick="openAdminThread('${threadId}','${esc2(n.message||'')}','${esc2(n.targetUserName||'')}','${esc2(n.targetUserEmail||'')}')"`
-      : '';
+    const rowClass=isPrivate?'notif-clickable-row':'';
+    const rowClick=isPrivate?`onclick="openAdminThread(this)"`:'';
 
-    return `<tr class="${rowClass}" ${rowClick}>
+    const dataAttrs=isPrivate
+      ?`data-thread-id="${threadId}"
+        data-msg="${esc(n.message||'')}"
+        data-username="${esc(n.targetUserName||'')}"
+        data-email="${esc(n.targetUserEmail||'')}"`
+      :'';
+
+    return `<tr class="${rowClass}" ${dataAttrs} ${rowClick}>
       <td>${typeBadge}</td>
       <td style="font-size:12px;color:var(--muted)">${esc(target)}</td>
       <td style="max-width:200px;font-size:12px">${msgPreview}${replyHint}</td>
-      <td>${n.imageUrl?`<img class="proof-thumb" src="${n.imageUrl}" onclick="event.stopPropagation();openImgModal('${n.imageUrl}')"/>` : '—'}</td>
+      <td>${n.imageUrl
+        ?`<img class="proof-thumb" src="${n.imageUrl}" onclick="event.stopPropagation();openImgModal('${n.imageUrl}')"/>`
+        :'—'}</td>
       <td style="font-size:12px;white-space:nowrap"><span class="role-badge ADMIN">ADMIN</span></td>
       <td style="font-size:11px;color:var(--muted);white-space:nowrap">${fmtDate(n.createdAt)}</td>
       <td onclick="event.stopPropagation()">
@@ -1417,57 +1499,49 @@ function renderAdminNotifs(list){
    Tries /api/admin/threads/{id}/replies  first
    Falls back to /api/admin/notifications/{id}/replies if 404
 ═══════════════════════════════════════════════════════════════════ */
-async function openAdminThread(threadId, originalMsg, userName, userEmail){
+async function openAdminThread(rowEl) {
+  const threadId    = rowEl.dataset.threadId;
+  const originalMsg = rowEl.dataset.msg;
+  const userName    = rowEl.dataset.username;
+  const userEmail   = rowEl.dataset.email;
+
   // Populate user info
-  const uName = decodeURIComponent(userName||'User');
-  const uEmail = decodeURIComponent(userEmail||'');
-  document.getElementById('modal-thread-username').textContent = uName;
-  document.getElementById('modal-thread-email').textContent = uEmail;
-  const initials = uName.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase()||'U';
-  document.getElementById('modal-thread-avatar').textContent = initials;
+  document.getElementById('modal-thread-username').textContent = userName || 'User';
+  document.getElementById('modal-thread-email').textContent    = userEmail || '';
+  const initials = (userName||'U').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  document.getElementById('modal-thread-avatar').textContent   = initials;
 
   // Original message
-  const decodedMsg = decodeURIComponent(originalMsg||'');
-  document.getElementById('modal-thread-original-text').textContent = decodedMsg||'(no text)';
+  document.getElementById('modal-thread-original-text').textContent = originalMsg || '(no text)';
 
   // Store thread id for reply submission
   document.getElementById('modal-thread-un-id').value = threadId;
-  document.getElementById('admin-reply-text').value = '';
+  document.getElementById('admin-reply-text').value   = '';
 
   // Show modal immediately with loading state
   document.getElementById('admin-thread-body').innerHTML =
     '<div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading conversation…</div>';
   openModal('modal-thread');
 
-  // Load replies — try primary endpoint, fallback on 404/error
+  // Load replies
   await fetchAndRenderAdminThread(threadId);
 }
 
 async function fetchAndRenderAdminThread(threadId){
-  const h = {Authorization:`Bearer ${tok()}`};
-  let replies = null;
-
-  // Primary: /api/admin/threads/{id}/replies
-  try{
-    const res = await fetch(`${API}/api/admin/threads/${threadId}/replies`, {headers:h});
-    if(res.ok){
-      replies = await res.json();
-    } else if(res.status === 404){
-      // Fallback: some APIs use /api/admin/notifications/{id}/thread
-      const res2 = await fetch(`${API}/api/admin/notifications/${threadId}/thread`, {headers:h});
-      if(res2.ok) replies = await res2.json();
+  const h = { Authorization: `Bearer ${tok()}` };
+  try {
+    const res = await fetch(`${API}/api/admin/threads/${threadId}/replies`, { headers: h });
+    if (res.ok) {
+      const replies = await res.json();
+      renderAdminThreadBody(Array.isArray(replies) ? replies : []);
+    } else {
+      console.error('Thread fetch failed — status:', res.status);
+      renderAdminThreadBody([]);
     }
-  } catch(e){
+  } catch(e) {
     console.error('Thread load error:', e);
-  }
-
-  if(replies === null){
-    // Show empty state — thread may just have no replies yet
     renderAdminThreadBody([]);
-    return;
   }
-
-  renderAdminThreadBody(Array.isArray(replies) ? replies : (replies.replies||[]));
 }
 
 function renderAdminThreadBody(replies){
@@ -1501,42 +1575,31 @@ function renderAdminThreadBody(replies){
 /* Submit admin reply */
 async function submitAdminReply(){
   const threadId = document.getElementById('modal-thread-un-id').value;
-  const msg = document.getElementById('admin-reply-text').value.trim();
-  if(!msg){toast('Please type a reply','error');return;}
+  const msg      = document.getElementById('admin-reply-text').value.trim();
+
+  if(!msg){ toast('Please type a reply','error'); return; }
 
   const btn = document.querySelector('#modal-thread .btn-green-solid');
   if(btn) btn.disabled = true;
 
-  try{
-    // Try primary endpoint
-    let res = await fetch(`${API}/api/admin/threads/${threadId}/reply?adminId=${uid()}`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
-      body:JSON.stringify({message:msg, adminId:uid()})
+  try {
+    const res = await fetch(`${API}/api/admin/threads/${threadId}/reply?adminId=${uid()}`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${tok()}` },
+      body:    JSON.stringify({ message: msg })
     });
 
-    // Fallback endpoint
-    if(!res.ok && res.status===404){
-      res = await fetch(`${API}/api/admin/notifications/${threadId}/reply`,{
-        method:'POST',
-        headers:{'Content-Type':'application/json',Authorization:`Bearer ${tok()}`},
-        body:JSON.stringify({message:msg, adminId:uid()})
-      });
-    }
+    if(!res.ok){ const d = await res.json(); throw new Error(d.message || 'Failed to send reply'); }
 
-    if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed to send reply');}
-
-    document.getElementById('admin-reply-text').value='';
+    document.getElementById('admin-reply-text').value = '';
     toast('Reply sent ✓');
 
-    // Reload the thread
+    // Refresh thread and notif list
     await fetchAndRenderAdminThread(threadId);
-
-    // Also refresh admin notif list so reply count updates
     loadAdminData().catch(()=>{});
 
-  }catch(e){toast(e.message,'error');}
-  finally{if(btn) btn.disabled=false;}
+  } catch(e){ toast(e.message,'error'); }
+  finally  { if(btn) btn.disabled = false; }
 }
 
 async function deleteAdminNotif(id){
