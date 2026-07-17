@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-<title>Kowri – Dashboard</title>
+<title>Kowri – Dashboarda</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 <style>
@@ -310,6 +310,14 @@ img{max-width:100%;}
 .btn-xs-delete:hover{background:#fecaca;}
 .btn-xs-role{background:#f0fdf4;color:#166534;}
 .btn-xs-role:hover{background:var(--green-light);}
+.btn-xs-wipe{background:#fef3c7;color:#92400e;}
+.btn-xs-wipe:hover{background:#fde68a;}
+/* ═══ Per-user deposit-only wipe (distinct from full wipe) ═══ */
+.btn-xs-dep-only{background:#ffedd5;color:#9a3412;}
+.btn-xs-dep-only:hover{background:#fed7aa;}
+/* ═══ Per-user withdrawal-only wipe ═══ */
+.btn-xs-wd-only{background:#e0f2fe;color:#0369a1;}
+.btn-xs-wd-only:hover{background:#bae6fd;}
 /* ═══ THREAD/REPLY BUTTON ═══ */
 .btn-xs-reply{
   background:linear-gradient(135deg,#7c3aed,#5b21b6);
@@ -428,7 +436,7 @@ img{max-width:100%;}
 .ss-card:hover{box-shadow:var(--shadow);transform:translateY(-1px);}
 .ss-card img{width:100%;height:140px;object-fit:cover;display:block;}
 .ss-card-info{padding:8px 10px;font-size:11px;color:var(--muted);}
-.ss-tab-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.ss-tab-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;align-items:center;}
 .ss-tab{padding:7px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--muted);transition:all .15s;}
 .ss-tab.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark);}
 
@@ -684,7 +692,7 @@ img{max-width:100%;}
     <!-- Deposits -->
     <div class="admin-section active" id="asec-deposits">
       <div class="admin-card">
-        <div class="admin-card-head"><h3>All Deposits</h3><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search name or email…" oninput="filterDeposits(this.value)" id="dep-search"/></div></div>
+        <div class="admin-card-head"><h3>All Deposits</h3><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search name or email…" oninput="filterDeposits(this.value)" id="dep-search"/></div><button class="btn-red-solid" id="btn-clear-all-deposits" style="display:none;font-size:12px;padding:8px 12px;" onclick="adminDeleteAllDeposits()"><i class="fa-solid fa-trash"></i> Delete All</button></div></div>
         <div class="tbl-wrap"><table class="data-tbl"><thead><tr><th>User</th><th>Type</th><th>Amount</th><th>Reward</th><th>Status</th><th>Date</th><th>Proof</th><th>Actions</th></tr></thead><tbody id="dep-tbody"><tr><td colspan="8" class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</td></tr></tbody></table></div>
       </div>
     </div>
@@ -692,7 +700,7 @@ img{max-width:100%;}
     <!-- Withdrawals -->
     <div class="admin-section" id="asec-withdrawals">
       <div class="admin-card">
-        <div class="admin-card-head"><h3>All Withdrawal Requests</h3><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search…" oninput="filterWithdrawals(this.value)" id="wd-search"/></div><button class="btn-red-solid" style="font-size:12px;padding:8px 12px;" onclick="adminDeleteAllWithdrawals()"><i class="fa-solid fa-trash"></i> Delete All</button></div></div>
+        <div class="admin-card-head"><h3>All Withdrawal Requests</h3><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search…" oninput="filterWithdrawals(this.value)" id="wd-search"/></div><button class="btn-red-solid" id="btn-clear-all-withdrawals" style="display:none;font-size:12px;padding:8px 12px;" onclick="adminDeleteAllWithdrawals()"><i class="fa-solid fa-trash"></i> Delete All</button></div></div>
         <div class="tbl-wrap"><table class="data-tbl"><thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Account</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead><tbody id="wd-admin-tbody"><tr><td colspan="7" class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</td></tr></tbody></table></div>
       </div>
     </div>
@@ -700,7 +708,7 @@ img{max-width:100%;}
     <!-- Users -->
     <div class="admin-section" id="asec-users">
       <div class="admin-card">
-        <div class="admin-card-head"><h3>All Users</h3><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search…" oninput="filterUsers(this.value)" id="usr-search"/></div></div>
+        <div class="admin-card-head"><h3>All Users</h3><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><div class="search-wrap"><i class="fa-solid fa-magnifying-glass"></i><input type="text" placeholder="Search…" oninput="filterUsers(this.value)" id="usr-search"/></div><button class="btn-red-solid" id="btn-clear-all-users" style="display:none;font-size:12px;padding:8px 12px;" onclick="adminClearAllUsers()"><i class="fa-solid fa-user-xmark"></i> Clear All Users</button></div></div>
         <div class="tbl-wrap"><table class="data-tbl"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="usr-tbody"><tr><td colspan="6" class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</td></tr></tbody></table></div>
       </div>
     </div>
@@ -743,6 +751,7 @@ img{max-width:100%;}
         <button class="ss-tab active" onclick="loadScreenshots('all',this)">All</button>
         <button class="ss-tab" onclick="loadScreenshots('daily',this)">Today</button>
         <button class="ss-tab" onclick="loadScreenshots('weekly',this)">This Week</button>
+        <button class="btn-red-solid" id="btn-clear-all-screenshots" style="display:none;font-size:12px;padding:7px 12px;margin-left:auto;" onclick="adminClearAllScreenshots()"><i class="fa-solid fa-trash"></i> Clear All</button>
       </div>
       <div id="ss-grid" class="screenshot-grid"><div class="loading-state" style="grid-column:1/-1"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading…</div></div>
     </div>
@@ -970,7 +979,7 @@ function dismissWelcome(){
 }
 
 /* ═══ CONFIG & STATE ═══ */
-const API='https://kowriwebbackend-production-006c.up.railway.app';
+const API='https://kowriwebbackend-2.onrender.com';
 let userData=null;
 let allDeposits=[],allUsers=[],allNotifs=[],allWithdrawals=[];
 let userNotifs=[];
@@ -1024,7 +1033,12 @@ async function init(){
   userData=JSON.parse(stored);
   const role=(userData.role||'').toUpperCase();
   isAdmin=role==='ADMIN'||role==='SUPER_ADMIN';
-  isSuperAdmin=role==='SUPER_ADMIN';
+  /* Access-level update: ADMIN and SUPER_ADMIN now share the same
+     level of access in this dashboard. isSuperAdmin is kept as a
+     variable (many UI branches below still key off it) but it is
+     now simply an alias for isAdmin, so any ADMIN sees/can trigger
+     everything a SUPER_ADMIN can from this UI. */
+  isSuperAdmin=isAdmin;
   const name=userData.fullName||userData.email||'User';
   const userId=uid();
   document.getElementById('nav-name').textContent=name;
@@ -1035,7 +1049,14 @@ async function init(){
     document.getElementById('tab-admin').style.display='flex';
     document.getElementById('bn-admin').style.display='flex';
     const chip=document.getElementById('nav-role-chip');chip.textContent=role.replace('_',' ');chip.classList.add('show');
-    if(isSuperAdmin)document.getElementById('atab-btn-register').style.display='block';
+    if(isSuperAdmin){
+      document.getElementById('atab-btn-register').style.display='block';
+      // Highly destructive bulk-wipe controls — now shown to any ADMIN/SUPER_ADMIN
+      document.getElementById('btn-clear-all-users').style.display='inline-flex';
+      document.getElementById('btn-clear-all-deposits').style.display='inline-flex';
+      document.getElementById('btn-clear-all-withdrawals').style.display='inline-flex';
+      document.getElementById('btn-clear-all-screenshots').style.display='inline-flex';
+    }
   }
   const isNewUser=localStorage.getItem('kowri_new_user')==='1';
   const alreadyWelcomed=userId&&localStorage.getItem(`kowri_welcomed_${userId}`)==='1';
@@ -1295,7 +1316,7 @@ function switchAdminSub(name,el){
   document.getElementById('asec-'+name).classList.add('active');
   el.classList.add('active');
   if(name==='screenshots') loadScreenshots('all');
-  if(name==='tokens')      renderTokenTable(allDeposits); // ← add this line
+  if(name==='tokens')      renderTokenTable(allDeposits);
 }
 
 /* ═══ DEPOSITS — ADMIN ═══ */
@@ -1398,13 +1419,126 @@ async function viewWithdrawal(id){
 async function approveWithdrawal(id){if(!confirm('Approve this withdrawal?'))return;try{const res=await fetch(`${API}/api/admin/withdrawals/${id}/status?status=APPROVED`,{method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}toast('Withdrawal approved');await loadAdminData();}catch(e){toast(e.message,'error');}}
 async function rejectWithdrawal(id){if(!confirm('Reject this withdrawal?'))return;try{const res=await fetch(`${API}/api/admin/withdrawals/${id}/status?status=REJECTED`,{method:'PATCH',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok){const d=await res.json();throw new Error(d.message||'Failed');}toast('Withdrawal rejected');await loadAdminData();}catch(e){toast(e.message,'error');}}
 async function adminDeleteWithdrawal(id){if(!confirm('Permanently delete this withdrawal?'))return;try{const res=await fetch(`${API}/api/admin/withdrawals/${id}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok&&res.status!==204)throw new Error('Failed');toast('Withdrawal deleted');await loadAdminData();}catch(e){toast(e.message,'error');}}
-async function adminDeleteAllWithdrawals(){if(!confirm('Delete ALL withdrawal records? Cannot be undone.'))return;try{const res=await fetch(`${API}/api/admin/withdrawals`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});if(!res.ok&&res.status!==204)throw new Error('Failed');toast('All withdrawal records deleted');await loadAdminData();}catch(e){toast(e.message,'error');}}
+async function adminDeleteAllWithdrawals(){
+  if(!confirm('Delete ALL withdrawal records for every user? This cannot be undone.'))return;
+  try{
+    const res=await fetch(`${API}/api/admin/withdrawals/purge-all?confirm=true`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok&&res.status!==204)throw new Error('Failed');
+    toast('All withdrawal records deleted');
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+/* ═══════════════════════════════════════════════════════════════════
+   DESTRUCTIVE ADMIN DATA MANAGEMENT
+   Wired to AdminController's endpoints. Each one confirms locally via
+   confirm() AND passes ?confirm=true to the backend where required.
+
+   NOTE ON ACCESS LEVEL: the frontend gating below (isSuperAdmin) is
+   now an alias for isAdmin (see init()), so any ADMIN or SUPER_ADMIN
+   account sees and can trigger all of these from this dashboard.
+   Backend authorization (e.g. @PreAuthorize) is a separate, server-side
+   concern outside this file — if the backend still restricts these
+   endpoints to SUPER_ADMIN only, that would need to be changed there
+   too for regular ADMIN accounts to actually succeed when calling them.
+
+   Per-user actions (single user):
+     - adminDeleteUserCompletely(userId)   → DELETE /api/admin/users/{id}?confirm=true      (deletes account + everything)
+     - adminClearUserDeposits(userId)      → DELETE /api/admin/deposits/user/{id}            (deposits + screenshots only, account kept)
+     - adminClearUserWithdrawals(userId)   → DELETE /api/admin/withdrawals/user/{id}          (withdrawals only, account kept)
+     - adminWipeUserData(userId)           → DELETE /api/admin/users/{id}/data                (deposits + withdrawals + screenshots, account kept)
+
+   Bulk actions (all users):
+     - adminClearAllUsers()                → DELETE /api/admin/users?confirm=true
+     - adminDeleteAllDeposits()            → DELETE /api/admin/deposits/purge-all?confirm=true
+     - adminDeleteAllWithdrawals()         → DELETE /api/admin/withdrawals/purge-all?confirm=true
+     - adminClearAllScreenshots()          → DELETE /api/admin/screenshots?confirm=true
+═══════════════════════════════════════════════════════════════════ */
+function findUserName(userId){const u=allUsers.find(x=>x.id===userId);return u?u.fullName:'this user';}
+
+async function adminClearAllUsers(){
+  if(!confirm('This PERMANENTLY deletes ALL regular user accounts and every deposit, withdrawal, and screenshot belonging to them. Admin accounts are kept. This cannot be undone. Continue?'))return;
+  try{
+    const res=await fetch(`${API}/api/admin/users?confirm=true`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to clear users');}
+    const data=await res.json();
+    toast(`${data.usersDeleted??0} user account(s) cleared`);
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+
+async function adminDeleteUserCompletely(userId){
+  const name=findUserName(userId);
+  if(!confirm(`Permanently delete ${name}'s account and ALL their deposits, withdrawals, and screenshots? This cannot be undone.`))return;
+  try{
+    const res=await fetch(`${API}/api/admin/users/${userId}?confirm=true`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to delete user');}
+    toast(`${name} deleted`);
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+
+async function adminWipeUserData(userId){
+  const name=findUserName(userId);
+  if(!confirm(`Clear all deposits, withdrawals, and screenshots for ${name}? Their account will be kept. This cannot be undone.`))return;
+  try{
+    const res=await fetch(`${API}/api/admin/users/${userId}/data`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to wipe user data');}
+    toast(`Data cleared for ${name}`);
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+
+/* NEW: delete only this user's deposit records (+ screenshots). Account & withdrawals untouched. */
+async function adminClearUserDeposits(userId){
+  const name=findUserName(userId);
+  if(!confirm(`Delete ALL deposit records (and their proof screenshots) for ${name}? Withdrawals and the account are kept. This cannot be undone.`))return;
+  try{
+    const res=await fetch(`${API}/api/admin/deposits/user/${userId}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to clear deposits for user');}
+    const data=await res.json().catch(()=>({}));
+    toast(`${data.depositsDeleted??0} deposit(s) cleared for ${name}`);
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+
+/* NEW: delete only this user's withdrawal records. Account & deposits untouched. */
+async function adminClearUserWithdrawals(userId){
+  const name=findUserName(userId);
+  if(!confirm(`Delete ALL withdrawal records for ${name}? Deposits and the account are kept. This cannot be undone.`))return;
+  try{
+    const res=await fetch(`${API}/api/admin/withdrawals/user/${userId}`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to clear withdrawals for user');}
+    const data=await res.json().catch(()=>({}));
+    toast(`${data.withdrawalsDeleted??0} withdrawal(s) cleared for ${name}`);
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
+
+async function adminClearAllScreenshots(){
+  if(!confirm('This PERMANENTLY deletes ALL proof screenshots from Cloudinary for every user. This cannot be undone. Continue?'))return;
+  try{
+    const res=await fetch(`${API}/api/admin/screenshots?confirm=true`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to clear screenshots');}
+    toast('All screenshots cleared');
+    loadScreenshots('all');
+  }catch(e){toast(e.message,'error');}
+}
+
+async function adminDeleteAllDeposits(){
+  if(!confirm('This PERMANENTLY deletes ALL deposit records for every user (screenshots are untouched — clear those separately). This cannot be undone. Continue?'))return;
+  try{
+const res=await fetch(`${API}/api/admin/deposits/purge-all?confirm=true`,{method:'DELETE',headers:{Authorization:`Bearer ${tok()}`}});
+    if(!res.ok){const d=await res.json().catch(()=>({}));throw new Error(d.error||d.message||'Failed to clear deposits');}
+    toast('All deposit records cleared');
+    await loadAdminData();
+  }catch(e){toast(e.message,'error');}
+}
 
 /* ═══ USERS ═══ */
 function renderAdminUsers(list){
   const tbody=document.getElementById('usr-tbody');
   if(!list.length){tbody.innerHTML='<tr><td colspan="6" class="empty-state">No users found.</td></tr>';return;}
-  tbody.innerHTML=list.map(u=>`<tr><td><strong style="font-size:13px">${u.fullName||'—'}</strong></td><td style="color:var(--muted)">${u.email||'—'}</td><td style="color:var(--muted)">${u.phoneNumber||'—'}</td><td><span class="role-badge ${u.role}">${u.role||'—'}</span></td><td style="font-size:12px;color:var(--muted);white-space:nowrap">${fmtDate(u.createdAt)}</td><td><div style="display:flex;gap:5px;flex-wrap:wrap">${isSuperAdmin?`<button class="btn-xs btn-xs-role" onclick="openRoleModal('${u.id}','${u.role}')"><i class="fa-solid fa-user-shield"></i></button>`:''}<button class="btn-xs btn-xs-credit" onclick="quickCredit('${u.id}')"><i class="fa-solid fa-coins"></i></button><button class="btn-xs btn-xs-private" onclick="quickPrivate('${u.id}')" title="Send private message"><i class="fa-solid fa-envelope"></i></button></div></td></tr>`).join('');
+  tbody.innerHTML=list.map(u=>`<tr><td><strong style="font-size:13px">${u.fullName||'—'}</strong></td><td style="color:var(--muted)">${u.email||'—'}</td><td style="color:var(--muted)">${u.phoneNumber||'—'}</td><td><span class="role-badge ${u.role}">${u.role||'—'}</span></td><td style="font-size:12px;color:var(--muted);white-space:nowrap">${fmtDate(u.createdAt)}</td><td><div style="display:flex;gap:5px;flex-wrap:wrap">${isSuperAdmin?`<button class="btn-xs btn-xs-role" onclick="openRoleModal('${u.id}','${u.role}')" title="Change role"><i class="fa-solid fa-user-shield"></i></button>`:''}<button class="btn-xs btn-xs-credit" onclick="quickCredit('${u.id}')" title="Credit balance"><i class="fa-solid fa-coins"></i></button><button class="btn-xs btn-xs-private" onclick="quickPrivate('${u.id}')" title="Send private message"><i class="fa-solid fa-envelope"></i></button>${isSuperAdmin?`<button class="btn-xs btn-xs-dep-only" onclick="adminClearUserDeposits('${u.id}')" title="Delete only this user's deposits & screenshots"><i class="fa-solid fa-receipt"></i></button><button class="btn-xs btn-xs-wd-only" onclick="adminClearUserWithdrawals('${u.id}')" title="Delete only this user's withdrawals"><i class="fa-solid fa-money-bill-transfer"></i></button><button class="btn-xs btn-xs-wipe" onclick="adminWipeUserData('${u.id}')" title="Clear this user's deposits, withdrawals & screenshots (keeps account)"><i class="fa-solid fa-eraser"></i></button><button class="btn-xs btn-xs-delete" onclick="adminDeleteUserCompletely('${u.id}')" title="Delete this user's account entirely"><i class="fa-solid fa-user-slash"></i></button>`:''}</div></td></tr>`).join('');
 }
 function filterUsers(q){const f=q.toLowerCase();renderAdminUsers(allUsers.filter(u=>(u.fullName||'').toLowerCase().includes(f)||(u.email||'').toLowerCase().includes(f)));}
 function openRoleModal(userId,currentRole){document.getElementById('role-user-id').value=userId;document.getElementById('role-select').value=currentRole;openModal('modal-role');}
@@ -1423,11 +1557,6 @@ async function submitCredit(){
 
 /* ═══════════════════════════════════════════════════════════════════
    ADMIN NOTIFICATIONS — renderAdminNotifs
-   FIXES:
-   1. threadId uses n.userNotificationId || n.id as fallback
-   2. Thread button always shows for private messages
-   3. Entire private-msg row is clickable (opens thread)
-   4. Button stops propagation so delete doesn't also open thread
 ═══════════════════════════════════════════════════════════════════ */
 function renderAdminNotifs(list){
   const tbody=document.getElementById('notif-admin-tbody');
@@ -1496,8 +1625,7 @@ function renderAdminNotifs(list){
 
 /* ═══════════════════════════════════════════════════════════════════
    openAdminThread — opens thread modal and loads conversation
-   Tries /api/admin/threads/{id}/replies  first
-   Falls back to /api/admin/notifications/{id}/replies if 404
+   Tries /api/admin/threads/{id}/replies first
 ═══════════════════════════════════════════════════════════════════ */
 async function openAdminThread(rowEl) {
   const threadId    = rowEl.dataset.threadId;
@@ -1505,25 +1633,20 @@ async function openAdminThread(rowEl) {
   const userName    = rowEl.dataset.username;
   const userEmail   = rowEl.dataset.email;
 
-  // Populate user info
   document.getElementById('modal-thread-username').textContent = userName || 'User';
   document.getElementById('modal-thread-email').textContent    = userEmail || '';
   const initials = (userName||'U').split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
   document.getElementById('modal-thread-avatar').textContent   = initials;
 
-  // Original message
   document.getElementById('modal-thread-original-text').textContent = originalMsg || '(no text)';
 
-  // Store thread id for reply submission
   document.getElementById('modal-thread-un-id').value = threadId;
   document.getElementById('admin-reply-text').value   = '';
 
-  // Show modal immediately with loading state
   document.getElementById('admin-thread-body').innerHTML =
     '<div class="loading-state"><i class="fa-solid fa-circle-notch fa-spin"></i> Loading conversation…</div>';
   openModal('modal-thread');
 
-  // Load replies
   await fetchAndRenderAdminThread(threadId);
 }
 
@@ -1568,11 +1691,9 @@ function renderAdminThreadBody(replies){
     </div>`;
   }).join('');
 
-  // Scroll to bottom
   requestAnimationFrame(()=>{ body.scrollTop = body.scrollHeight; });
 }
 
-/* Submit admin reply */
 async function submitAdminReply(){
   const threadId = document.getElementById('modal-thread-un-id').value;
   const msg      = document.getElementById('admin-reply-text').value.trim();
@@ -1594,7 +1715,6 @@ async function submitAdminReply(){
     document.getElementById('admin-reply-text').value = '';
     toast('Reply sent ✓');
 
-    // Refresh thread and notif list
     await fetchAndRenderAdminThread(threadId);
     loadAdminData().catch(()=>{});
 
@@ -1718,13 +1838,6 @@ function resetPrivateModal(){
   document.getElementById('private-type-indicator').style.display='none';
 }
 function openImgModal(url){document.getElementById('modal-img-src').src=url;openModal('modal-img');}
-
-/* Safe escape for JS string attrs (single-quoted) — URI encode instead of quoting */
-function esc2(s){
-  if(!s)return '';
-  // Use encodeURIComponent so special chars don't break the onclick attr
-  return encodeURIComponent(s);
-}
 
 /* HTML escape for display */
 function esc(s){if(!s)return '';return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
